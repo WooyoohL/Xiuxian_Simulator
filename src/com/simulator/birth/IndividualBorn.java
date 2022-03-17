@@ -11,7 +11,7 @@ public class IndividualBorn {       //人类类
     private String Nationality;  //种族
     private int BirthPlace;        //出生地代码 =1 人族 =2 神族
     private String BirthPlaceName;   //出生地名称
-    private String Name;
+    private String Name;            //昵称
     private int age;                //年龄，Normal_Max_Age == 200  Max_Age == 400;
     private int Real_Lingli;        //真实灵力 = random(1,10000)
     private int Lingli;            //显示灵力 = random(1,100)
