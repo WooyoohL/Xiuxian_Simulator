@@ -6,12 +6,14 @@ import com.simulator.thingsmanager.ThingManager;
 import java.io.IOException;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
+        ThingManager thingsmanager = new ThingManager();
         IndividualBorn Person = new IndividualBorn();
         if (Person.getNationality().equals("人族")) {        //人族开局
-            ThingManager.HumanThingsHappen(Person);
+            thingsmanager.HumanThingsHappen(Person);
         } else if (Person.getNationality().equals("仙族")) {
-            ThingManager.GodThingsHappen(Person);           //仙族开局
+            thingsmanager.GodThingsHappen(Person);           //仙族开局
         }
 //            string rename = "Account: " + AccountName;
 //            ofstream outfile = null;
