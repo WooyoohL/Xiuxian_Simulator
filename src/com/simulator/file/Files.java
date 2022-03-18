@@ -1,3 +1,6 @@
+//This file method reprinted from http://www.cnblogs.com/XiOrang/ and modified by @见痴.
+
+
 package com.simulator.file;
 
 import java.io.BufferedReader;
