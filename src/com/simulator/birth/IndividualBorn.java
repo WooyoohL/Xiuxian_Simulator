@@ -1,5 +1,10 @@
 package com.simulator.birth;
 
+import com.simulator.file.Files;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
@@ -15,29 +20,31 @@ public class IndividualBorn {       //人类类
     private int age;                //年龄，Normal_Max_Age == 200  Max_Age == 400;
     private int Real_Lingli;        //真实灵力 = random(1,10000)
     private int Lingli;            //显示灵力 = random(1,100)
+    private int ReBornTimes;       //转世次数
 
-    public IndividualBorn() {
+
+    public IndividualBorn() throws IOException {
         //灵力设置
         Random r = new Random();           //随机数种子
         Scanner in = new Scanner(System.in);
 
-        System.out.println("欢迎使用修仙模拟器！");
-        System.out.println("为自己起一个昵称吧！");
+        System.out.println("欢迎使用修仙模拟器,为自己起一个法号吧！");
         this.Name = in.next();     //输入昵称
         this.age = 1;
         this.Real_Lingli = r.nextInt(10000 + 1);        //roll真实灵力
-        this.Lingli = Real_Lingli/100;
+        this.Lingli = Real_Lingli / 100;
         System.out.println("请选择种族：1.人族 2.仙族");
         int x = in.nextInt();  //接收种族选择
-        switch(x) {
-            case 1:this.Nationality = "人族";
-            break;
-            case 2:this.Nationality = "仙族";
-            break;
+        switch (x) {
+            case 1:
+                this.Nationality = "人族";
+                break;
+            case 2:
+                this.Nationality = "仙族";
+                break;
             default:
                 return;
         }
-
 //      等级设置
         this.Level = 1;
 //      出生地设置
@@ -60,6 +67,18 @@ public class IndividualBorn {       //人类类
                         return;
                 }
             }
+            //开局
+            System.out.println("你的种族是" + this.Nationality + "。");
+            System.out.println("你出生在" + this.BirthPlaceName + "，出生那天，天降异象，天雷滚滚，瓢泼大雨，实属罕见之景象。");
+            System.out.println("大雨下了七天七夜。大雨给村民们带来了巨大的损失，从此村民们视你为异端。");
+            new BufferedReader(new InputStreamReader(System.in)).readLine(); //按回车一次
+//      stories begin
+            Files.createFile(getName() + "_Files",
+                    "Name = " + getName() +
+                            "\nNationality = " + getNationality() +
+                            "\nBirthPlace = " + getBirthPlaceName() +
+                            "\nAge = " + getAge() +
+                            "\nLingli = " + getLingli());
         } else if (Objects.equals(this.Nationality, "仙族")) {    //仙族开局  别去掉判断条件，以后可能加别的种族。
             System.out.println(this.Name + "，欢迎来到修仙的世界！");
             this.BirthPlace = this.GodSelectBirthPlace(Real_Lingli);
@@ -79,81 +98,18 @@ public class IndividualBorn {       //人类类
                         return;
                 }
             }
+            System.out.println("仙界战争，风起云涌。");
+            System.out.println("你出生在一个仙族世家，但作为旁系，父母天生灵力很低，所以你们一家一直被家族所排挤。");
+            new BufferedReader(new InputStreamReader(System.in)).readLine(); //按回车一次
+//      stories begin
+            Files.createFile(getName() + "_Files",
+                    "Name = " + getName() +
+                            "\nNationality = " + getNationality() +
+                            "\nBirthPlace = " + getBirthPlaceName() +
+                            "\nAge = " + getAge() +
+                            "\nLingli = " + getLingli());
         }
-        //开局
-        System.out.println("你出生在" + this.BirthPlaceName);
-        System.out.println("你的种族是" + this.Nationality);
-        System.out.println("你目前的等级是：Lv." + getLevel());
-    }
 
-
-
-    public int getReal_Lingli() {
-        return Real_Lingli;
-    }
-
-    public void setReal_Lingli(int real_Lingli) {
-        Real_Lingli = real_Lingli;
-    }
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge() {
-        this.age++;
-    }
-
-    public int getLevel() {
-        return Level;
-    }
-
-    public void setLevel(int level) {
-        Level = level;
-    }
-
-    public String getNationality() {
-        return Nationality;
-    }
-
-    public void setNationality(String nationality) {
-        Nationality = nationality;
-    }
-
-    public int getLingli() {
-        return Lingli;
-    }
-
-    public void setLingli(int lingli) {
-        Lingli = lingli;
-    }
-
-    public int getBirthPlace() {
-        return BirthPlace;
-    }
-
-    public void setBirthPlace(int birthPlace) {
-        BirthPlace = birthPlace;
-    }
-
-    public String getBirthPlaceName() {
-        return BirthPlaceName;
-    }
-
-    public void setBirthPlaceName(String birthPlaceName) {
-        BirthPlaceName = birthPlaceName;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void collaboration() {    //显示当前属性
-        System.out.println("你目前的等级是：" + this.Level);
-        System.out.println("你的灵力是 (0-100随机)：" + this.Lingli);
     }
 
     public int HumanSelectBirthPlace(int Real_Lingli) {   //判断灵力水平，选择出生地，开局用
@@ -237,5 +193,84 @@ public class IndividualBorn {       //人类类
             return 0;
         }
     }
+
+    public int getReBornTimes() {
+        return ReBornTimes;
+    }
+
+    public void setReBornTimes() {
+        this.ReBornTimes++;
+    }
+
+    public int getReal_Lingli() {
+        return Real_Lingli;
+    }
+
+    public void setReal_Lingli(int real_Lingli) {
+        Real_Lingli = real_Lingli;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge() {
+        this.age++;
+    }
+
+    public int getLevel() {
+        return Level;
+    }
+
+    public void setLevel(int level) {
+        Level = level;
+    }
+
+    public String getNationality() {
+        return Nationality;
+    }
+
+    public void setNationality(String nationality) {
+        Nationality = nationality;
+    }
+
+    public int getLingli() {
+        return Lingli;
+    }
+
+    public void setLingli(int lingli) {
+        Lingli = lingli;
+    }
+
+    public int getBirthPlace() {
+        return BirthPlace;
+    }
+
+    public void setBirthPlace(int birthPlace) {
+        BirthPlace = birthPlace;
+    }
+
+    public String getBirthPlaceName() {
+        return BirthPlaceName;
+    }
+
+    public void setBirthPlaceName(String birthPlaceName) {
+        BirthPlaceName = birthPlaceName;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void collaboration() {    //显示当前属性
+        System.out.println("你目前的等级是：" + this.Level);
+        System.out.println("你的灵力是 (0-100随机)：" + this.Lingli);
+    }
+
+
 }
 

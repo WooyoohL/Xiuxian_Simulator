@@ -8,8 +8,8 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        ThingManager thingsmanager = new ThingManager();
         IndividualBorn Person = new IndividualBorn();
+        ThingManager thingsmanager = new ThingManager();
         if (Person.getNationality().equals("人族")) {        //人族开局
             thingsmanager.HumanThingsHappen(Person);
         } else if (Person.getNationality().equals("仙族")) {
