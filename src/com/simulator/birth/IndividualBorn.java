@@ -1,6 +1,7 @@
 package com.simulator.birth;
 
 import com.simulator.file.Files;
+import com.simulator.thingsmanager.ThingManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,26 +12,28 @@ import java.util.Scanner;
 
 import static javafx.application.Platform.exit;
 
-public class IndividualBorn {       //人类类
-    private int Level;            //Max_Level == 100;
-    private String Nationality;  //种族
+public class IndividualBorn {
+    public boolean getReBornTimes;       //人类类
+    private int Level;             //Max_Level == 100;
+    private String Nationality;    //种族
     private int BirthPlace;        //出生地代码 =1 人族 =2 神族
-    private String BirthPlaceName;   //出生地名称
-    private String Name;            //昵称
-    private int age;                //年龄，Normal_Max_Age == 200  Max_Age == 400;
-    private int Real_Lingli;        //真实灵力 = random(1,10000)
+    private String BirthPlaceName; //出生地名称
+    private String Name;           //昵称
+    private int age;               //年龄，Normal_Max_Age == 200  Max_Age == 400;
+    private int Real_Lingli;       //真实灵力 = random(1,10000)
     private int Lingli;            //显示灵力 = random(1,100)
-    private int ReBornTimes;       //转世次数
-
+    private int ReBornTimes = 0;   //转世次数
+    private int Max_Age;           //寿命上限
 
     public IndividualBorn() throws IOException {
+        ThingManager thingsmanager = new ThingManager();
         //灵力设置
         Random r = new Random();           //随机数种子
         Scanner in = new Scanner(System.in);
 
         System.out.println("欢迎使用修仙模拟器,为自己起一个法号吧！");
         this.Name = in.next();     //输入昵称
-        this.age = 1;
+        this.age = 1;              //初始化年龄
         this.Real_Lingli = r.nextInt(10000 + 1);        //roll真实灵力
         this.Lingli = Real_Lingli / 100;
         System.out.println("请选择种族：1.人族 2.仙族");
@@ -72,7 +75,9 @@ public class IndividualBorn {       //人类类
             System.out.println("你出生在" + this.BirthPlaceName + "，出生那天，天降异象，天雷滚滚，瓢泼大雨，实属罕见之景象。");
             System.out.println("大雨下了七天七夜。大雨给村民们带来了巨大的损失，从此村民们视你为异端。");
             new BufferedReader(new InputStreamReader(System.in)).readLine(); //按回车一次
-//      stories begin
+//          stories begin
+//          每运行一次你会在D盘根目录下找到一个txt文件
+//          修改后缀名为txt后打开 可以看到你的真实灵力以及年龄
             Files.createFile(getName() + "_Files",
                     "Name = " + getName() +
                             "\nNationality = " + getNationality() +
@@ -101,7 +106,9 @@ public class IndividualBorn {       //人类类
             System.out.println("仙界战争，风起云涌。");
             System.out.println("你出生在一个仙族世家，但作为旁系，父母天生灵力很低，所以你们一家一直被家族所排挤。");
             new BufferedReader(new InputStreamReader(System.in)).readLine(); //按回车一次
-//      stories begin
+//          stories begin
+//          每运行一次你会在D盘根目录下找到一个txt文件
+//          修改后缀名为txt后打开 可以看到你的真实灵力以及年龄
             Files.createFile(getName() + "_Files",
                     "Name = " + getName() +
                             "\nNationality = " + getNationality() +
@@ -109,7 +116,6 @@ public class IndividualBorn {       //人类类
                             "\nAge = " + getAge() +
                             "\nLingli = " + getLingli());
         }
-
     }
 
     public int HumanSelectBirthPlace(int Real_Lingli) {   //判断灵力水平，选择出生地，开局用
@@ -198,8 +204,13 @@ public class IndividualBorn {       //人类类
         return ReBornTimes;
     }
 
+    //正常转世无传入值直接++，有大运积攒直接增加转世次数n次
     public void setReBornTimes() {
         this.ReBornTimes++;
+    }
+
+    public void setReBornTimes(int reBornTimes) {
+        this.ReBornTimes += reBornTimes;
     }
 
     public int getReal_Lingli() {
@@ -214,8 +225,13 @@ public class IndividualBorn {       //人类类
         return age;
     }
 
+    //正常年龄增长无传入值，转世直接重写年龄值
     public void setAge() {
         this.age++;
+    }
+
+    public void setAge(int Age) {
+        this.age = Age;
     }
 
     public int getLevel() {
@@ -238,8 +254,13 @@ public class IndividualBorn {       //人类类
         return Lingli;
     }
 
+    //正常灵力增长有传入值，转世直接重写灵力值
     public void setLingli(int lingli) {
         Lingli = lingli;
+    }
+
+    public void setLingli() {
+        this.Lingli /=2.5;
     }
 
     public int getBirthPlace() {
@@ -270,7 +291,15 @@ public class IndividualBorn {       //人类类
         System.out.println("你目前的等级是：" + this.Level);
         System.out.println("你的灵力是 (0-100随机)：" + this.Lingli);
     }
-
+    public void addMax_Age(int age){
+        this.Max_Age += age;
+    }
+    public int getMax_Age(){
+        return this.Max_Age;
+    }
+    public void initMax_Age(int age){
+        this.Max_Age = age;
+    }
 
 }
 
