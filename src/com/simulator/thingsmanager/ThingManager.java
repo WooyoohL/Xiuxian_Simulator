@@ -5,6 +5,7 @@ import com.simulator.birth.IndividualBorn;
 import com.simulator.file.Files;
 import com.simulator.things.BigThing;
 import com.simulator.thingsbyyear.ThingsByYear;
+import com.simulator.reborn.Reborn;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,10 +17,9 @@ import static java.lang.System.exit;
 
 public class ThingManager {
     BigThing BigThing = new BigThing();
-
     public ThingManager() throws IOException {
     }
-
+    IndividualBorn Person = new IndividualBorn();
     CalatimyRandom calatimyRandom = new CalatimyRandom();
 
     //开局
@@ -37,31 +37,13 @@ public class ThingManager {
 
     }
 
-    //操作转世
-    public void Reborn(IndividualBorn Person) {
-        RebornTimes(Person);
-        System.out.println("你决定转世重修，再续一世。");
-        System.out.println("你的寿元是：" + Person.getMax_Age() + "。");
-        Person.setReBornTimes();
-        Person.setAge(1);
-        Person.setLingli();
-        calatimyRandom.setFlag();
-        System.out.println("你转世了，带着上一世的部分记忆和灵力。");
-        System.out.println("你剩下" + Person.getLingli() + "点灵力。");
-    }
-
-    //在最后一年判断转世次数
-    public void RebornTimes(IndividualBorn Person) {
-        if (Person.getReBornTimes() == 3) {
-            System.out.println("你历经三世修行，证得仙士境界。寿元提升两百年。");
-            Person.addMax_Age(200);
-        }
-    }
 
     //人族
     public void HumanJudge(IndividualBorn Person) throws IOException {
         Scanner in = new Scanner(System.in);
         String RebornMark = null;
+        Reborn reborn = new Reborn();
+        //开始循环年龄增长
         while (true) {
             //一轮循环前先判断自身情况
             if (Person.getLingli() <= 0) {
@@ -70,28 +52,13 @@ public class ThingManager {
                 System.out.println("You died. 你死了。");
                 return;
             }
-            if (Person.getAge() == 125) {
-                if (Person.getReBornTimes() > 0) {
-                    System.out.println("你已经修行了" + Person.getReBornTimes() + "世。");
-                }
-                System.out.println("这一世，你看遍了人世间的冷暖，心有所感，道心趋于圆满。请决定是否再修一世。");
-                System.out.println("1.继续转世修行   2.不再流连凡尘俗世");
-                RebornMark = in.next();
-                if (Objects.equals(RebornMark, "1")) {
-                    System.out.println("RebornMark" + RebornMark);
-                    System.out.println("你决定下一世继续修行。");
-                } else if (Objects.equals(RebornMark, "2")) {
-                    System.out.println("你越来越无牵无挂。");
-                    RebornTimes(Person);
-                } else {
-                    System.out.println("输入错误！机不可失时不再来。你错失良机，只能结束这一世修行。");
-                    RebornMark = "2";
-                }
-            }
+            //125岁时决定是否转世
+            RebornMark = reborn.ifHumanReborn(Person);
+            //寿终时判断
             if (Person.getAge() == Person.getMax_Age() + 1) {
                 System.out.println("RebornMark" + RebornMark);
                 if (Objects.equals(RebornMark, "1")) {
-                    Reborn(Person);
+                    reborn.goReborn(Person);
                 } else if (Person.getLingli() >= 200) {
                     System.out.println("你共修行了" + Person.getReBornTimes() + "世。");
                     System.out.println("你寿元已尽，飞升而去。");
@@ -117,6 +84,7 @@ public class ThingManager {
     public void GodJudge(IndividualBorn Person) throws IOException {
         Scanner in = new Scanner(System.in);
         String RebornMark = null;
+        Reborn reborn = new Reborn();
         while (true) {
             //一轮循环前先判断自身情况
             if (Person.getLingli() <= 0) {
@@ -124,26 +92,10 @@ public class ThingManager {
                 System.out.println("You died. 你死了。");
                 exit(1);
             }
-            if (Person.getAge() == 155) {
-                if (Person.getReBornTimes() > 0) {
-                    System.out.println("你已经修行了" + Person.getReBornTimes() + "世。");
-                }
-                System.out.println("这一世，你看遍了人世间的冷暖，心有所感，道心趋于圆满。请决定是否再修一世。");
-                System.out.println("1.继续转世修行   2.不再流连凡尘俗世");
-                RebornMark = in.next();
-                if (Objects.equals(RebornMark, "1")) {
-                    System.out.println("你决定下一世继续修行。");
-                } else if (Objects.equals(RebornMark, "2")) {
-                    System.out.println("你越来越无牵无挂。");
-                    RebornTimes(Person);
-                } else {
-                    System.out.println("输入错误！机不可失时不再来。你错失良机，只能结束这一世修行。");
-                    RebornMark = "2";
-                }
-            }
+            RebornMark = reborn.ifGodReborn(Person);
             if (Person.getAge() == Person.getMax_Age()) {
                 if (Objects.equals(RebornMark, "1")) {
-                    Reborn(Person);
+                    reborn.goReborn(Person);
                 } else if (Person.getLingli() >= 250) {
                     System.out.println("你共转世了" + Person.getReBornTimes() + "次。");
                     System.out.println("你寿元已到，化虹飞升。");

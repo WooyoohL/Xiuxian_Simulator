@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="Xiuxian_Simulator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Xiuxian_Simulator_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Xiuxian_Simulator.jar">
+        <element id="module-output" name="Xiuxian_Simulator" />
+      </element>
+    </root>
+  </artifact>
+</component>

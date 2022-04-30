@@ -34,7 +34,7 @@ public class ThingsByYear {
         if (this.DailyProbability <= 35 && Happenage <= 10) {
             LingliChangement += dailyThing.Daily0_10();    //日常事件发生，获取0-10岁事件灵力影响值。
         } else if (this.DailyProbability <= 35 && Happenage <= 20) { // ???
-            LingliChangement += dailyThing.Daily11_20();   //小运事件发生，获取10-20岁事件灵力影响值。
+            LingliChangement += dailyThing.Daily11_20();   //小运事件发生，获取10-20岁事件灵 力影响值。
         }
         this.SmallProbability = ran.nextInt(101);       //35/65概率小运
         if (this.SmallProbability <= 35 && Happenage <= 10) {
