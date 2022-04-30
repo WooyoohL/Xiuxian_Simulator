@@ -3,7 +3,7 @@ package com.simulator.thingsmanager;
 import com.simulator.calatimyrandom.CalatimyRandom;
 import com.simulator.birth.IndividualBorn;
 import com.simulator.file.Files;
-import com.simulator.thing.BigThing;
+import com.simulator.things.BigThing;
 import com.simulator.thingsbyyear.ThingsByYear;
 
 import java.io.BufferedReader;

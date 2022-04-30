@@ -1,8 +1,7 @@
-package com.simulator.thing;
+package com.simulator.things;
 
 import com.simulator.birth.IndividualBorn;
 import com.simulator.calatimyrandom.CalatimyRandom;
-import com.simulator.thingsbyyear.ThingsByYear;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,9 +1,8 @@
 package com.simulator.thingsbyyear;
 
 
-import com.simulator.thing.DailyThing;
-import com.simulator.thing.SmallThing;
-import com.simulator.thing.BigThing;
+import com.simulator.things.DailyThing;
+import com.simulator.things.SmallThing;
 
 import java.io.IOException;
 import java.util.Random;

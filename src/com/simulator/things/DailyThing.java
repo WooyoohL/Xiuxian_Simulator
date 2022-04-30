@@ -1,4 +1,4 @@
-package com.simulator.thing;
+package com.simulator.things;
 
 import java.util.Random;
 import java.util.Scanner;
